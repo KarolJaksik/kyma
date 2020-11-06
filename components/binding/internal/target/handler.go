@@ -127,7 +127,7 @@ func (h *Handler) RemoveLabel(b *v1alpha1.Binding) error {
 		labelsToDelete = append(labelsToDelete, key)
 	}
 	if err := h.ensureLabelsAreDeleted(resource, labelsToDelete, resourceData.LabelFields); err != nil {
-		return errors.Wrapf(err, "while trying to delete labels %+v")
+		return errors.Wrapf(err, "while trying to delete labels %+v", labelsToDelete)
 	}
 
 	err = h.updateResource(resource, resourceData)
