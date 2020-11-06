@@ -26,10 +26,7 @@ jobs:
         TOKEN: ${{ steps.generate_token.outputs.token }}
       run: |
         RESPONSE=$(curl -H "Authorization: token ${{ env.TOKEN}}" -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/kyma-project/kyma/collaborators/${{ github.event.pull_request.user.login }})
-        if [ "$RESPONSE" != "204" ]; then
-          echo "${{ github.event.pull_request.user.login }} is not a collaborator"
-          exit 1
-        fi
+ 
 
     - name: Send ok-to-test event
       uses: peter-evans/repository-dispatch@v1
