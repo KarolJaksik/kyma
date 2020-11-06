@@ -36,4 +36,4 @@ jobs:
         token: ${{ env.TOKEN }}
         event-type: ok-to-test-command
         client-payload: '{"sha": "${{ github.event.pull_request.head.sha }}","pull_request":{"number":${{ github.event.number }}}}'
-        repository: kyma-project/kyma
+        repository: kjaksik/kyma
