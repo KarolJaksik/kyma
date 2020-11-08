@@ -30,7 +30,7 @@ jobs:
     - name: Fork based /ok-to-test checkout
       uses: actions/checkout@v2
       with:
-        ref: "refs/pull/${env.PR_NUMBER}/merge"
+        ref: "refs/pull/${{ env.PR_NUMBER }}/merge"
 
     - name: Go test, vet, fmt
       run:  |
