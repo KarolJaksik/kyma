@@ -111,7 +111,7 @@ jobs:
           console.log('NAME')
           console.log(process.env.job)
           console.log('CHECKS')
-          console.log(check.check_runs)
+          console.log(checks.check_runs)
  
           const check = checks.check_runs.filter(c => c.name === process.env.job);
           const { data: result } = await github.checks.update({
