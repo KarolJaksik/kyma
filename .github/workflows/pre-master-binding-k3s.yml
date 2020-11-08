@@ -14,7 +14,7 @@ defaults:
 jobs:
   pre-master-binding-k3s:
     env:
-      PR_NUMBER: ${{ github.event.number }}
+      PR_NUMBER: ${{ github.event.client_payload.pull_request.number }}
       PROJECT_ID: "sap-se-cx-gopher"
     runs-on: ubuntu-latest
     if: 
@@ -30,7 +30,7 @@ jobs:
     - name: Fork based /ok-to-test checkout
       uses: actions/checkout@v2
       with:
-        ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
+        ref: 'refs/pull/${PR_NUMBER}/merge'
 
     - name: Go test, vet, fmt
       run:  |
@@ -59,7 +59,7 @@ jobs:
     - name: Push Image
       run: |
         gcloud auth configure-docker -q
-        docker push eu.gcr.io/$PROJECT_ID/binding:PR-$PR_NUMBER#
+        docker push eu.gcr.io/$PROJECT_ID/binding:PR-$PR_NUMBER
 
     - name: Prepare k3s and helm 3
       run: |
