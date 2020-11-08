@@ -4,7 +4,7 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
     paths:
-      - 'components/binding/*'
+      - 'components/binding/**'
       - '.github/workflows/bindings-k3s.yml'
 
 jobs:
@@ -21,15 +21,15 @@ jobs:
         app_id: ${{ secrets.TOKEN_GETTER_APP_ID }}
         private_key: "${{ env.SECRET}}"
 
-    - name: Check if Author is a trusted dev
-      env:
-        TOKEN: ${{ steps.generate_token.outputs.token }}
-      run: |
-        RESPONSE=$(curl -H "Authorization: token ${{ env.TOKEN}}" -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/kyma-project/kyma/collaborators/${{ github.event.pull_request.user.login }} )
-        if [ "$RESPONSE" != "204" ]; then
-          echo "${{ github.event.pull_request.user.login }} is not a collaborator"
-          exit 1
-        fi
+    #- name: Check if Author is a trusted dev
+    #  env:
+    #    TOKEN: ${{ steps.generate_token.outputs.token }}
+    #  run: |
+    #    RESPONSE=$(curl -H "Authorization: token ${{ env.TOKEN}}" -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/kyma-project/kyma/collaborators/${{ github.event.pull_request.user.login }} )
+    #    if [ "$RESPONSE" != "204" ]; then
+    #      echo "${{ github.event.pull_request.user.login }} is not a collaborator"
+    #      exit 1
+    #    fi
 
     - name: Send ok-to-test event
       uses: peter-evans/repository-dispatch@v1
@@ -39,4 +39,4 @@ jobs:
         token: ${{ env.TOKEN }}
         event-type: ok-to-test-command
         client-payload: '{"sha": "${{ github.event.pull_request.head.sha }}","pull_request":{"number":${{ github.event.number }}}}'
-        repository: kyma-project/kyma
+        repository: kjaksik/kyma
