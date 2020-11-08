@@ -1,5 +1,9 @@
 name: Binding-pre-master
 on: 
+  pull_request:
+    paths: 
+      - 'components/binding/**'
+      - '.github/workflows/bindings-k3s.yml'
   repository_dispatch:
     types: [ok-to-test-command]   
 
@@ -8,6 +12,14 @@ defaults:
     working-directory: components/binding
 
 jobs:
+  stub-to-be-updated:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+
+    - name: Branch based PR checkout
+      uses: actions/checkout@v2
+      
   pre-master-binding-k3s:
     env:
       PR_NUMBER: ${{ github.event.number }}
@@ -99,7 +111,8 @@ jobs:
           console.log('NAME')
           console.log(process.env.job)
           console.log('CHECKS')
-          console.log(checks)
+          console.log(check.check_runs)
+ 
           const check = checks.check_runs.filter(c => c.name === process.env.job);
           const { data: result } = await github.checks.update({
             ...context.repo,
