@@ -19,17 +19,9 @@ spec:
   seLinux:
     rule: 'RunAsAny'
   supplementalGroups:
-    rule: 'MustRunAs'
-    ranges:
-      # Forbid adding the root group.
-      - min: 1
-        max: 65535
+    rule: 'RunAsAny'
   fsGroup:
-    rule: 'MustRunAs'
-    ranges:
-      # Forbid adding the root group.
-      - min: 1
-        max: 65535
+    rule: 'RunAsAny'
   readOnlyRootFilesystem: true
   # Allow core volume types.
   volumes:
